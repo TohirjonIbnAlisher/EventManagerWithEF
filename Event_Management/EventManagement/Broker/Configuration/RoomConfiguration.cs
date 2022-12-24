@@ -1,12 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using EventManagement.Model;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EventManagement.Broker.Configuration
 {
-    internal class RoomConfiguration
+    public class RoomConfiguration : IEntityTypeConfiguration<Room>
     {
+        public void Configure(EntityTypeBuilder<Room> builder)
+        {
+            builder.ToTable(nameof(Room));
+
+            builder.HasKey(room => room.RoomNumber);
+
+            builder.Property(room => new
+                { room.Name, room.Capacity })
+                    .IsRequired();
+
+            builder.HasMany(room => room.Seats)
+                .WithOne(seat => seat.Room)
+                    .HasForeignKey(room => room.SeatNumber);
+
+            builder.HasMany(room => room.Events)
+                .WithOne(e => e.Room)
+                    .HasForeignKey(room => room.RoomNumber);
+        }
     }
 }

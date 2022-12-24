@@ -1,12 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using EventManagement.Model;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EventManagement.Broker.Configuration
 {
-    internal class EventConfiguration
+    public class EventConfiguration : IEntityTypeConfiguration<Event>
     {
+        public void Configure(EntityTypeBuilder<Event> builder)
+        {
+            builder.ToTable("Event");
+
+            builder.HasKey(e => e.Id);
+
+            builder.Property(e => e.EventName)
+                .HasMaxLength(40).IsRequired();
+
+            builder.Property(e => 
+                new {e.StartAt,e.EndAt}).IsRequired();
+
+            builder.HasOne(e => e.Company)
+                .WithMany(company => company.Events)
+                    .HasForeignKey(e => e.CompanyId);
+            builder.HasOne(e => e.Room)
+                .WithMany(room => room.Events);
+        }
     }
 }

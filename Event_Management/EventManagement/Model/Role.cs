@@ -1,6 +1,9 @@
 ﻿namespace EventManagement.Model
 {
-    public class Role
+    public enum Role
     {
+        Admin,
+        Company,
+        Participent
     }
 }

@@ -1,12 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace EventManagement.Broker
 {
-    internal class EventManagementBroker
+    public partial class EventManagementBroker : DbContext, IEventManagementBroker
     {
+        private readonly string connectionString = @"Server = (localdb)\mssqllocaldb;
+            Database = EventManagement;TrustConnection=true;MultipleActiveResultSets=true";
+        protected override void OnConfiguring(
+            DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(connectionString);
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(
+                Assembly.GetExecutingAssembly() );
+        }
     }
 }
