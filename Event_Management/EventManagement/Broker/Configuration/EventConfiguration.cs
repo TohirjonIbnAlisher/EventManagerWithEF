@@ -17,11 +17,15 @@ namespace EventManagement.Broker.Configuration
                 .HasMaxLength(40).IsRequired();
 
             builder.Property(e => 
-                new {e.StartAt,e.EndAt}).IsRequired();
+                e.StartAt).IsRequired();
+            
+            builder.Property(e => 
+                e.EndAt).IsRequired();
 
             builder.HasOne(e => e.Company)
                 .WithMany(company => company.Events)
                     .HasForeignKey(e => e.CompanyId);
+
             builder.HasOne(e => e.Room)
                 .WithMany(room => room.Events);
         }

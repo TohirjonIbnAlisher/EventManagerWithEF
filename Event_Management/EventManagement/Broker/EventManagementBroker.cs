@@ -7,7 +7,8 @@ namespace EventManagement.Broker
     public partial class EventManagementBroker : DbContext, IEventManagementBroker
     {
         private readonly string connectionString = @"Server = (localdb)\mssqllocaldb;
-            Database = EventManagement;TrustConnection=true;MultipleActiveResultSets=true";
+            Database = EventManagement;Trusted_Connection=True;
+                MultipleActiveResultSets=true;TrustServerCertificate=True";
         protected override void OnConfiguring(
             DbContextOptionsBuilder optionsBuilder)
         {
@@ -17,7 +18,9 @@ namespace EventManagement.Broker
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(
-                Assembly.GetExecutingAssembly() );
+                Assembly.GetExecutingAssembly());
         }
+
+
     }
 }

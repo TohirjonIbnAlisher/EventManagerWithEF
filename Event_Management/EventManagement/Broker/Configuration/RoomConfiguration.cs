@@ -13,9 +13,11 @@ namespace EventManagement.Broker.Configuration
 
             builder.HasKey(room => room.RoomNumber);
 
-            builder.Property(room => new
-                { room.Name, room.Capacity })
-                    .IsRequired();
+            builder.Property(room => 
+                room.Name).IsRequired();
+            
+            builder.Property(room => 
+                room.Capacity).IsRequired();
 
             builder.HasMany(room => room.Seats)
                 .WithOne(seat => seat.Room)

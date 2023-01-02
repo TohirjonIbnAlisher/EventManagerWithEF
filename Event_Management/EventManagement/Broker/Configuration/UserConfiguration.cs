@@ -14,7 +14,8 @@ namespace EventManagement.Broker.Configuration
 
             builder.HasMany(user => user.Events)
                 .WithOne(eventt => eventt.Company)
-                    .HasForeignKey(eventt => eventt.CompanyId);
+                    .HasForeignKey(eventt => eventt.CompanyId)
+                        .OnDelete(DeleteBehavior.Cascade);
 
             builder.Property(user => user.UserName)
                 .HasMaxLength(30).IsRequired();
